@@ -44,9 +44,11 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
         dispatch_async(queue) {
             ServerManager.getArticlesWithCategorylist(categoryList: categorylist, number: number, articleSort: "hot", completion: { (articles) in
-                dispatch_async(dispatch_get_main_queue(), { 
+                dispatch_async(dispatch_get_main_queue(), {
                     self.hotArticlesArray = articles
                     self.hotCollectionView.reloadData()
+                    print("hot datasource", self.hotCollectionView.dataSource)
+                    
                 })
             }) { (error) in
                 print("get hot articles fail, error: \(error)")
@@ -55,14 +57,17 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         
         dispatch_async(queue) {
             ServerManager.getArticlesWithCategorylist(categoryList: categorylist, number: number, articleSort: "new", completion: { (articles) in
-                dispatch_async(dispatch_get_main_queue(), { 
+                dispatch_async(dispatch_get_main_queue(), {
                     self.newArticlesArray = articles
                     self.newCollectionView.reloadData()
+                    print("new datasource", self.newCollectionView.dataSource)
                 })
             }) { (error) in
                 print("get new articles fail, error: \(error)")
             }
         }
+
+        
     }
     
     
@@ -73,7 +78,17 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return newArticlesArray.count
+        var count: Int?
+        
+        if collectionView == newCollectionView {
+            count = self.newArticlesArray.count
+        }
+        
+        if collectionView == hotCollectionView {
+            count = self.hotArticlesArray.count
+        }
+        
+        return count!
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {

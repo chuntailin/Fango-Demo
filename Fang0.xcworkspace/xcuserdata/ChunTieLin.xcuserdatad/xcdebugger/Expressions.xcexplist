@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "HomeViewController.(getHotAndNewArticles(String, number : String) -&gt; ()).(closure #1).(closure #1).(closure #1):HomeViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.hotCollectionView">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HomeViewController.collectionView(UICollectionView, cellForItemAtIndexPath : NSIndexPath) -&gt; UICollectionViewCell:HomeViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "hotCell">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HomeViewController.collectionView(UICollectionView, numberOfItemsInSection : Int) -&gt; Int:HomeViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "newArticlesArray.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

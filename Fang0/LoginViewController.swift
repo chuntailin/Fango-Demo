@@ -57,4 +57,12 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     func loginButtonDidLogOut(loginButton: FBSDKLoginButton!){
         print("User Logged Out")
     }
+    
+    
+    
+    //MARK: - Action
+    @IBAction func dismissButtonTapped(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
 }

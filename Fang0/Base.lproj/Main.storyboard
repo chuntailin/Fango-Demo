@@ -5,6 +5,13 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="AvenirNextCondensed.ttc">
+            <string>AvenirNextCondensed-Regular</string>
+            <string>AvenirNextCondensed-Regular</string>
+            <string>AvenirNextCondensed-Regular</string>
+        </mutableArray>
+    </customFonts>
     <scenes>
         <!--Home View Controller-->
         <scene sceneID="eXw-rr-Ety">
@@ -282,7 +289,7 @@
                                                     <rect key="frame" x="14" y="-12" width="300" height="293"/>
                                                 </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="khB-hf-SY5">
-                                                    <rect key="frame" x="258" y="249" width="39" height="28"/>
+                                                    <rect key="frame" x="258" y="249" width="40" height="28"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <state key="normal" title="詳全文">
                                                         <color key="titleColor" red="0.89103323219999997" green="0.73635858300000001" blue="0.19198393820000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -574,10 +581,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Fone-Salesman-14" translatesAutoresizingMaskIntoConstraints="NO" id="3E1-yC-rf4">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="425"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login with Facebook and enjoy more pleasure in  Fango!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bR9-gr-4ll">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="425"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.76000000000000001" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -600,6 +607,20 @@
                                     <constraint firstItem="LWc-dj-ZoZ" firstAttribute="centerY" secondItem="QZN-aa-wzi" secondAttribute="centerY" id="dg9-BJ-cJV"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IWO-5w-MoO">
+                                <rect key="frame" x="8" y="16" width="20" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="20" id="MH5-xU-os0"/>
+                                    <constraint firstAttribute="height" constant="20" id="hiH-lL-9UY"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                <state key="normal" title="x">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="dismissButtonTapped:" destination="4I1-uw-Ei7" eventType="touchUpInside" id="dBu-V2-Ee6"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.6405447586734514" green="0.61922919900929974" blue="0.52745100745718176" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -611,9 +632,11 @@
                             <constraint firstItem="QZN-aa-wzi" firstAttribute="bottom" secondItem="LQU-Ew-gGX" secondAttribute="top" id="Iw5-zw-P5b"/>
                             <constraint firstItem="bR9-gr-4ll" firstAttribute="top" secondItem="VLP-iT-QAD" secondAttribute="top" id="Lsn-17-8rT"/>
                             <constraint firstAttribute="trailing" secondItem="bR9-gr-4ll" secondAttribute="trailing" id="UAg-WH-gAy"/>
-                            <constraint firstItem="LQU-Ew-gGX" firstAttribute="top" secondItem="3E1-yC-rf4" secondAttribute="bottom" constant="143" id="VVw-BS-5BR"/>
+                            <constraint firstItem="LQU-Ew-gGX" firstAttribute="top" secondItem="3E1-yC-rf4" secondAttribute="bottom" id="VVw-BS-5BR"/>
+                            <constraint firstItem="IWO-5w-MoO" firstAttribute="top" secondItem="VLP-iT-QAD" secondAttribute="top" constant="16" id="adi-4m-kfh"/>
                             <constraint firstItem="3E1-yC-rf4" firstAttribute="trailing" secondItem="QZN-aa-wzi" secondAttribute="trailing" id="jdo-Of-Dx9"/>
                             <constraint firstItem="bR9-gr-4ll" firstAttribute="bottom" secondItem="3E1-yC-rf4" secondAttribute="bottom" id="ld5-TD-vO3"/>
+                            <constraint firstItem="IWO-5w-MoO" firstAttribute="leading" secondItem="VLP-iT-QAD" secondAttribute="leading" constant="8" id="sCE-pA-4Fu"/>
                             <constraint firstItem="bR9-gr-4ll" firstAttribute="top" secondItem="3E1-yC-rf4" secondAttribute="top" id="uqU-em-ieg"/>
                         </constraints>
                     </view>
@@ -1490,8 +1513,8 @@
         <image name="society" width="865" height="368"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="S9e-6F-KbE"/>
-        <segue reference="Vyw-Cm-LB5"/>
         <segue reference="WLj-aC-wo2"/>
+        <segue reference="S9e-6F-KbE"/>
+        <segue reference="ewQ-Xw-TBw"/>
     </inferredMetricsTieBreakers>
 </document>
