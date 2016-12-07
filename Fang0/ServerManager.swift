@@ -79,8 +79,8 @@ class ServerManager: NSObject {
         }
     }
     
-    class func getArticlesWithCategorylist(categoryList category: String, number num: String, articleSort sort: String, completion:(articles: [Article]) -> Void, failure:(error: NSError?) -> Void ) {
-        let api = Router.Article(ArticleAPI.GetArticleWithCategorylist(category, num, sort))
+    class func getArticlesWithCategorylist(categoryList category: String, number num: String, articleSort sort: String, begin: String, completion:(articles: [Article]) -> Void, failure:(error: NSError?) -> Void ) {
+        let api = Router.Article(ArticleAPI.GetArticleWithCategorylist(category, num, sort, begin))
         
         Alamofire.request(api).responseJSON { (response) in
             switch response.result {

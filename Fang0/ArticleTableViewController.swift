@@ -14,14 +14,14 @@ class ArticleTableViewController: UITableViewController {
     
     var selectedIndex: Int!
     var articleDataArray = [Article]()
-    var begin = 30
+    var begin = 12
     let refreshController = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         initUI()
         
-        getArticlesData("[\(self.selectedIndex)]", number: "10", sort: "new")
+        getArticlesData("[\(self.selectedIndex)]", number: "10", sort: "new", begin: "\(begin)")
     }
     
     func initUI() {
@@ -40,10 +40,10 @@ class ArticleTableViewController: UITableViewController {
     
     
     //MARK: - HTTP Reqeust
-    func getArticlesData(categorylist: String, number: String, sort: String){
+    func getArticlesData(categorylist: String, number: String, sort: String, begin: String){
         let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
         dispatch_async(queue) { 
-            ServerManager.getArticlesWithCategorylist(categoryList: categorylist, number: number, articleSort: sort, completion: { (articles) in
+            ServerManager.getArticlesWithCategorylist(categoryList: categorylist, number: number, articleSort: sort, begin: begin, completion: { (articles) in
                 dispatch_async(dispatch_get_main_queue(), { 
                     self.articleDataArray = articles
                     self.tableView.reloadData()
@@ -56,7 +56,7 @@ class ArticleTableViewController: UITableViewController {
     
     func uiRefreshControlAction() {
         begin -= 2
-        self.getArticlesData("[\(self.selectedIndex)]", number: "10", sort: "new")
+        self.getArticlesData("[\(self.selectedIndex)]", number: "10", sort: "new", begin: "\(begin)")
         self.tableView.reloadData()
         refreshController.endRefreshing()
     }

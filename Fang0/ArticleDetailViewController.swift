@@ -58,22 +58,6 @@ class ArticleDetailViewController: UIViewController, UIPopoverPresentationContro
             }
         }
         
-        
-        
-        //        ratingStarView.didFinishTouchingCosmos = { rating in
-        //            if let userToken =  NSUserDefaults.standardUserDefaults().valueForKey("token") {
-        //                ServerManager.rank(userToken: userToken as! String, articleId: self.selectedArticle.articleId, rankValue: String(rating))
-        //
-        //                let alertVC = UIAlertController(title: "Success", message: "You have completed ranking the article.", preferredStyle: .Alert)
-        //                let okAction = UIAlertAction(title: "OK", style: .Cancel, handler: nil)
-        //
-        //                alertVC.addAction(okAction)
-        //                self.presentViewController(alertVC, animated: true, completion: nil)
-        //            } else {
-        //                let loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
-        //                self.presentViewController(loginVC, animated: true, completion: nil)
-        //            }
-        //        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -222,7 +206,7 @@ class ArticleDetailViewController: UIViewController, UIPopoverPresentationContro
     func pickerView(pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
         let collection = self.pickerItemArray[row]
         let collectionName = collection.collectionName
-        let pickerViewTitle = NSAttributedString(string: collectionName, attributes: [NSFontAttributeName:UIFont(name: "Georgia", size: 15.0)!,NSForegroundColorAttributeName:UIColor.whiteColor()])
+        let pickerViewTitle = NSAttributedString(string: collectionName, attributes: [NSFontAttributeName:UIFont(name: "Georgia", size: 15.0)!, NSForegroundColorAttributeName:UIColor.whiteColor()])
         return pickerViewTitle
     }
     

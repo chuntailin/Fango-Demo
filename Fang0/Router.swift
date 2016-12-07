@@ -32,7 +32,7 @@ enum Router: URLRequestConvertible {
                 return .GET
             case .GetArticleWithToken(_, _, _):
                 return .GET
-            case .GetArticleWithCategorylist(_, _, _):
+            case .GetArticleWithCategorylist(_, _, _, _):
                 return .GET
             case .SearchArticleFromDB(_):
                 return .GET
@@ -81,7 +81,7 @@ enum Router: URLRequestConvertible {
                 return "/articles"
             case .GetArticleWithToken(_, _, _):
                 return "/articles"
-            case .GetArticleWithCategorylist(_, _, _):
+            case .GetArticleWithCategorylist(_, _, _, _):
                 return "/articles"
             case .SearchArticleFromFB(_, _):
                 return "/articles/search?auth=soslab2015"
@@ -142,8 +142,8 @@ enum Router: URLRequestConvertible {
                 let params = ["token":token, "number":number, "sort":sort]
                 let request = Alamofire.ParameterEncoding.URL.encode(mutableURLRequest, parameters: params).0
                 return request
-            case .GetArticleWithCategorylist(let categorylist, let number, let sort):
-                let params = ["categorylist":categorylist, "number":number, "sort":sort]
+            case .GetArticleWithCategorylist(let categorylist, let number, let sort, let begin):
+                let params = ["categorylist":categorylist, "number":number, "sort":sort, "begin":begin]
                 let request = Alamofire.ParameterEncoding.URL.encode(mutableURLRequest, parameters: params).0
                 return request
             case .SearchArticleFromFB(let token, let query):
@@ -211,7 +211,7 @@ enum ArticleAPI {
     //取得文章, 參數：token, number(可空), sort(可空)
     case GetArticleWithToken(String, String, String)
     //取得文章, 參數：categorylist(可空), number(可空), sort(可空)
-    case GetArticleWithCategorylist(String, String, String)
+    case GetArticleWithCategorylist(String, String, String, String)
     //從FB搜尋文章, 參數：token, q(搜尋字串)
     case SearchArticleFromFB(String, String)
     //從DB搜尋文章, 參數：text(搜尋字串)

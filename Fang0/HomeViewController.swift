@@ -20,11 +20,17 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        initUI()
-        getHotAndNewArticles("[]", number: "10")
+        
+        
     }
     
-
+    override func viewWillAppear(animated: Bool) {
+        initUI()
+        
+//        getHotAndNewArticles("[]", number: "10", begin: "10")
+    }
+    
+    
     func initUI() {
         
         self.navigationController!.navigationBar.barTintColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha:1)
@@ -42,15 +48,13 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     
     
     //MARK: - HTTP Request
-    func getHotAndNewArticles(categorylist: String, number: String) {
+    func getHotAndNewArticles(categorylist: String, number: String, begin: String) {
         let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
         dispatch_async(queue) {
-            ServerManager.getArticlesWithCategorylist(categoryList: categorylist, number: number, articleSort: "hot", completion: { (articles) in
+            ServerManager.getArticlesWithCategorylist(categoryList: categorylist, number: number, articleSort: "hot", begin: begin, completion: { (articles) in
                 dispatch_async(dispatch_get_main_queue(), {
                     self.hotArticlesArray = articles
                     self.hotCollectionView.reloadData()
-                    print("hot datasource", self.hotCollectionView.dataSource)
-                    
                 })
             }) { (error) in
                 print("get hot articles fail, error: \(error)")
@@ -58,11 +62,10 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         }
         
         dispatch_async(queue) {
-            ServerManager.getArticlesWithCategorylist(categoryList: categorylist, number: number, articleSort: "new", completion: { (articles) in
+            ServerManager.getArticlesWithCategorylist(categoryList: categorylist, number: number, articleSort: "new", begin: begin, completion: { (articles) in
                 dispatch_async(dispatch_get_main_queue(), {
                     self.newArticlesArray = articles
                     self.newCollectionView.reloadData()
-                    print("new datasource", self.newCollectionView.dataSource)
                 })
             }) { (error) in
                 print("get new articles fail, error: \(error)")

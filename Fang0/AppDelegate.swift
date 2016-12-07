@@ -20,6 +20,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var mask: CALayer?
     var imageView: UIImageView?
     
+    var newArticlesArray = [Article]()
+    var hotArticlesArray = [Article]()
+
+    
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
         
         return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
@@ -38,14 +42,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.mask = CALayer()
         self.mask!.contents = UIImage(named: "logo-final")?.CGImage
         self.mask!.contentsGravity = kCAGravityResizeAspect
-        self.mask!.bounds = CGRect(x: 0, y: 0, width: 100, height: 81)
+        self.mask!.bounds = CGRect(x: 0, y: 0, width: 180, height: 160)
         self.mask!.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.mask!.position = CGPoint(x: imageView1.frame.size.width / 2, y: imageView1.frame.size.height / 2)
         
         imageView1.layer.mask = mask
         self.imageView = imageView1
         
-        animateMask {
+        getHotAndNewArticles("[]", number: "10", begin: "10") { 
+            self.animateMask()
         }
 
         self.window!.backgroundColor = UIColor(red:231/255, green:76/255, blue:60/255, alpha:1)
@@ -55,11 +60,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
     }
     
-    func animateMask(completion: () -> Void) {
+    func animateMask() {
         
         let keyFrameAnimation = CAKeyframeAnimation(keyPath: "bounds")
         keyFrameAnimation.delegate = self
-        keyFrameAnimation.duration = 1.5
+        keyFrameAnimation.duration = 2
         keyFrameAnimation.beginTime = CACurrentMediaTime() + 0.5
         keyFrameAnimation.timingFunctions = [CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut), CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)]
         let initalBounds = NSValue(CGRect: mask!.bounds)
@@ -68,9 +73,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         keyFrameAnimation.values = [initalBounds, secondBounds, finalBounds]
         keyFrameAnimation.keyTimes = [0, 0.3, 1]
         self.mask!.addAnimation(keyFrameAnimation, forKey: "bounds")
-        
-        completion()
-        
     }
     
     override func animationDidStop(anim: CAAnimation, finished flag: Bool) {
@@ -82,13 +84,56 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let homeVC = storyboard.instantiateViewControllerWithIdentifier("HomeViewController") as! HomeViewController
         let navigationVC = UINavigationController(rootViewController: homeVC)
         
+        homeVC.loadView()
+        
+        homeVC.hotArticlesArray = self.hotArticlesArray
+        homeVC.newArticlesArray = self.newArticlesArray
+        
+        
+        homeVC.hotCollectionView.reloadData()
+        homeVC.newCollectionView.reloadData()
+        
         swRevealVC.setFrontViewController(navigationVC, animated: true)
         
         self.window?.rootViewController = swRevealVC
     }
     
     
-    
+    func getHotAndNewArticles(categorylist: String, number: String, begin: String, completion: () -> Void) {
+        let group = dispatch_group_create()
+        let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+        
+        dispatch_group_enter(group)
+        dispatch_async(queue) {
+            ServerManager.getArticlesWithCategorylist(categoryList: categorylist, number: number, articleSort: "hot", begin: begin, completion: { (articles) in
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.hotArticlesArray = articles
+                    dispatch_group_leave(group)
+                })
+            }) { (error) in
+                dispatch_group_leave(group)
+                print("get hot articles fail, error: \(error)")
+            }
+        }
+        
+        dispatch_group_enter(group)
+        dispatch_async(queue) {
+            ServerManager.getArticlesWithCategorylist(categoryList: categorylist, number: number, articleSort: "new", begin: begin, completion: { (articles) in
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.newArticlesArray = articles
+                    dispatch_group_leave(group)
+                })
+            }) { (error) in
+                dispatch_group_leave(group)
+                print("get new articles fail, error: \(error)")
+            }
+        }
+        
+        dispatch_group_notify(group, dispatch_get_main_queue()) {
+            completion()
+        }
+    }
+
     
     
     
