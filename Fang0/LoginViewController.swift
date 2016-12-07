@@ -17,19 +17,24 @@ var userDefaultToken: String?
 
 class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     
-    @IBOutlet weak var logoView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let fbLoginLabel = UILabel(frame: CGRect(x: 8, y: UIScreen.mainScreen().bounds.height/2 - 100, width: UIScreen.mainScreen().bounds.width - 16, height: 80))
+        fbLoginLabel.text = "Login with Facebook and enjoy more pleasure in  Fango!"
+        fbLoginLabel.textColor = UIColor.whiteColor()
+        fbLoginLabel.textAlignment = .Center
+        fbLoginLabel.numberOfLines = 0
+        
+        self.view.addSubview(fbLoginLabel)
         
         checkIfLogin()
     }
     
     func checkIfLogin() {
         if FBSDKAccessToken.currentAccessToken() != nil {
-            self.logoView.hidden = false
         } else {
-            self.logoView.hidden = true
             
             let loginView : FBSDKLoginButton = FBSDKLoginButton()
             loginView.center = self.view.center

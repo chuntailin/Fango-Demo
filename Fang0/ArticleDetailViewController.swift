@@ -39,7 +39,8 @@ class ArticleDetailViewController: UIViewController, UIPopoverPresentationContro
         getRecommendArticle(selectedArticle.articleId)
         
         ratingStarView.settings.fillMode = .Full
-        ratingStarView.didFinishTouchingCosmos = { rating in
+        
+        ratingStarView.didTouchCosmos = { rating in
             if let userToken =  NSUserDefaults.standardUserDefaults().valueForKey("token") {
                 ServerManager.rank(userToken: userToken as! String, articleId: self.selectedArticle.articleId, rankValue: String(rating))
                 
@@ -49,10 +50,30 @@ class ArticleDetailViewController: UIViewController, UIPopoverPresentationContro
                 alertVC.addAction(okAction)
                 self.presentViewController(alertVC, animated: true, completion: nil)
             } else {
+                
+                self.ratingStarView.rating = 0
+                
                 let loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
                 self.presentViewController(loginVC, animated: true, completion: nil)
             }
         }
+        
+        
+        
+        //        ratingStarView.didFinishTouchingCosmos = { rating in
+        //            if let userToken =  NSUserDefaults.standardUserDefaults().valueForKey("token") {
+        //                ServerManager.rank(userToken: userToken as! String, articleId: self.selectedArticle.articleId, rankValue: String(rating))
+        //
+        //                let alertVC = UIAlertController(title: "Success", message: "You have completed ranking the article.", preferredStyle: .Alert)
+        //                let okAction = UIAlertAction(title: "OK", style: .Cancel, handler: nil)
+        //
+        //                alertVC.addAction(okAction)
+        //                self.presentViewController(alertVC, animated: true, completion: nil)
+        //            } else {
+        //                let loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
+        //                self.presentViewController(loginVC, animated: true, completion: nil)
+        //            }
+        //        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -162,7 +183,7 @@ class ArticleDetailViewController: UIViewController, UIPopoverPresentationContro
         if let userToken = NSUserDefaults.standardUserDefaults().valueForKey("token") {
             let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
             dispatch_async(queue, {
-                self.getCollectionList(userToken as! String, completion: { 
+                self.getCollectionList(userToken as! String, completion: {
                     dispatch_async(dispatch_get_main_queue(), {
                         if self.pickerItemArray != [] {
                             if self.isPickerViewHidden {

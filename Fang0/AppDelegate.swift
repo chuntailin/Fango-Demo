@@ -17,16 +17,96 @@ import Alamofire
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
-    var tokenDictionary = [:]
+    var mask: CALayer?
+    var imageView: UIImageView?
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
+        
         return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
     }
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        
+        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        self.window?.rootViewController = UIViewController()
+        
+        let imageView1 = UIImageView(frame: self.window!.frame)
+        imageView1.image = UIImage(named: "HomePage")
+        self.window!.addSubview(imageView1)
+        
+        self.mask = CALayer()
+        self.mask!.contents = UIImage(named: "logo-final")?.CGImage
+        self.mask!.contentsGravity = kCAGravityResizeAspect
+        self.mask!.bounds = CGRect(x: 0, y: 0, width: 100, height: 81)
+        self.mask!.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        self.mask!.position = CGPoint(x: imageView1.frame.size.width / 2, y: imageView1.frame.size.height / 2)
+        
+        imageView1.layer.mask = mask
+        self.imageView = imageView1
+        
+        animateMask {
+        }
+
+        self.window!.backgroundColor = UIColor(red:231/255, green:76/255, blue:60/255, alpha:1)
+        self.window!.makeKeyAndVisible()
+        
         return true
+        
     }
+    
+    func animateMask(completion: () -> Void) {
+        
+        let keyFrameAnimation = CAKeyframeAnimation(keyPath: "bounds")
+        keyFrameAnimation.delegate = self
+        keyFrameAnimation.duration = 1.5
+        keyFrameAnimation.beginTime = CACurrentMediaTime() + 0.5
+        keyFrameAnimation.timingFunctions = [CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut), CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)]
+        let initalBounds = NSValue(CGRect: mask!.bounds)
+        let secondBounds = NSValue(CGRect: CGRect(x: 0, y: 0, width: 90, height: 73))
+        let finalBounds = NSValue(CGRect: CGRect(x: 0, y: 0, width: 800, height: 600))
+        keyFrameAnimation.values = [initalBounds, secondBounds, finalBounds]
+        keyFrameAnimation.keyTimes = [0, 0.3, 1]
+        self.mask!.addAnimation(keyFrameAnimation, forKey: "bounds")
+        
+        completion()
+        
+    }
+    
+    override func animationDidStop(anim: CAAnimation, finished flag: Bool) {
+        self.imageView!.layer.mask = nil
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let swRevealVC = storyboard.instantiateViewControllerWithIdentifier("SWRevealViewController") as! SWRevealViewController
+        let homeVC = storyboard.instantiateViewControllerWithIdentifier("HomeViewController") as! HomeViewController
+        let navigationVC = UINavigationController(rootViewController: homeVC)
+        
+        swRevealVC.setFrontViewController(navigationVC, animated: true)
+        
+        self.window?.rootViewController = swRevealVC
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

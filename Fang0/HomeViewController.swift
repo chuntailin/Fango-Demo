@@ -24,7 +24,9 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         getHotAndNewArticles("[]", number: "10")
     }
     
+
     func initUI() {
+        
         self.navigationController!.navigationBar.barTintColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha:1)
         self.navigationController?.navigationBar.backIndicatorImage = UIImage(named: "back")!.imageWithRenderingMode(.AlwaysOriginal)
         self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "back")!.imageWithRenderingMode(.AlwaysOriginal)

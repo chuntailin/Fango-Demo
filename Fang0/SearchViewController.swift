@@ -31,7 +31,24 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "back")!.imageWithRenderingMode(.AlwaysOriginal)
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style:.Plain, target:nil, action:nil)
         self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        
         searchBar.delegate = self
+        
+        let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeGesture(_:)))
+        swipeGesture.direction = .Down
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapGesture(_:)))
+        
+        self.view.addGestureRecognizer(tapGesture)
+        self.view.addGestureRecognizer(swipeGesture)
+    }
+    
+    func tapGesture(sender: UIGestureRecognizer) {
+        self.searchBar.resignFirstResponder()
+    }
+    
+    func swipeGesture(sender: UIGestureRecognizer) {
+        self.searchBar.resignFirstResponder()
     }
     
     
@@ -61,11 +78,14 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
             self.loadingIndicator.hidden = false
             self.loadingIndicator.startAnimating()
             self.getArticlesData(input)
+            self.searchBar.resignFirstResponder()
         }else{
             let alertVC = UIAlertController(title: "Search Fail!!", message: "There is no article you want ", preferredStyle: .Alert)
             let confirmAction = UIAlertAction(title: "OK", style: .Default, handler: { (_) in })
             alertVC.addAction(confirmAction)
-            self.presentViewController(alertVC, animated: true, completion: nil)
+            self.presentViewController(alertVC, animated: true, completion: {
+                searchBar.resignFirstResponder()
+            })
         }
     }
     

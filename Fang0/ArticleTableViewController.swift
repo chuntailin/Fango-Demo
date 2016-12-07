@@ -11,7 +11,6 @@ import Alamofire
 
 class ArticleTableViewController: UITableViewController {
     
-    @IBOutlet weak var menuButton: UIBarButtonItem!
     
     var selectedIndex: Int!
     var articleDataArray = [Article]()
@@ -26,12 +25,7 @@ class ArticleTableViewController: UITableViewController {
     }
     
     func initUI() {
-        if self.revealViewController() != nil {
-            menuButton.target = self.revealViewController()
-            menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
-            self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
-            self.revealViewController().rearViewRevealWidth = 200
-        }
+        
         
         self.refreshController.addTarget(self, action: #selector(ArticleTableViewController.uiRefreshControlAction), forControlEvents: .ValueChanged)
         self.tableView.addSubview(refreshController)
@@ -65,6 +59,12 @@ class ArticleTableViewController: UITableViewController {
         self.getArticlesData("[\(self.selectedIndex)]", number: "10", sort: "new")
         self.tableView.reloadData()
         refreshController.endRefreshing()
+    }
+    
+    
+    //MARK: - Action
+    @IBAction func backButtonItemTapped(sender: AnyObject) {
+        self.navigationController?.popViewControllerAnimated(true)
     }
     
     
