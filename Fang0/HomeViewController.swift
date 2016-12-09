@@ -21,15 +21,13 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
     }
     
     override func viewWillAppear(animated: Bool) {
         initUI()
         
-//        getHotAndNewArticles("[]", number: "10", begin: "10")
+        getHotAndNewArticles("[]", number: "10", begin: "10")
     }
-    
     
     func initUI() {
         
@@ -77,11 +75,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     
     
     
-    //MARK: - CollectionView Delegate and Datesource
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return 1
-    }
-    
+    //MARK: - CollectionView Delegate and Datesource    
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         var count: Int?
         

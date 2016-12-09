@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var newArticlesArray = [Article]()
     var hotArticlesArray = [Article]()
-
+    
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
         
@@ -36,7 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.rootViewController = UIViewController()
         
         let imageView1 = UIImageView(frame: self.window!.frame)
-        imageView1.image = UIImage(named: "HomePage")
+        imageView1.image = UIImage(named: "HomePage_Blank")
         self.window!.addSubview(imageView1)
         
         self.mask = CALayer()
@@ -49,10 +49,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         imageView1.layer.mask = mask
         self.imageView = imageView1
         
-        getHotAndNewArticles("[]", number: "10", begin: "10") { 
-            self.animateMask()
-        }
-
+        animateMask()
+        
         self.window!.backgroundColor = UIColor(red:231/255, green:76/255, blue:60/255, alpha:1)
         self.window!.makeKeyAndVisible()
         
@@ -82,58 +80,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let swRevealVC = storyboard.instantiateViewControllerWithIdentifier("SWRevealViewController") as! SWRevealViewController
         let homeVC = storyboard.instantiateViewControllerWithIdentifier("HomeViewController") as! HomeViewController
+        
         let navigationVC = UINavigationController(rootViewController: homeVC)
         
-        homeVC.loadView()
-        
-        homeVC.hotArticlesArray = self.hotArticlesArray
-        homeVC.newArticlesArray = self.newArticlesArray
-        
-        
-        homeVC.hotCollectionView.reloadData()
-        homeVC.newCollectionView.reloadData()
         
         swRevealVC.setFrontViewController(navigationVC, animated: true)
         
         self.window?.rootViewController = swRevealVC
     }
     
-    
-    func getHotAndNewArticles(categorylist: String, number: String, begin: String, completion: () -> Void) {
-        let group = dispatch_group_create()
-        let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
-        
-        dispatch_group_enter(group)
-        dispatch_async(queue) {
-            ServerManager.getArticlesWithCategorylist(categoryList: categorylist, number: number, articleSort: "hot", begin: begin, completion: { (articles) in
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.hotArticlesArray = articles
-                    dispatch_group_leave(group)
-                })
-            }) { (error) in
-                dispatch_group_leave(group)
-                print("get hot articles fail, error: \(error)")
-            }
-        }
-        
-        dispatch_group_enter(group)
-        dispatch_async(queue) {
-            ServerManager.getArticlesWithCategorylist(categoryList: categorylist, number: number, articleSort: "new", begin: begin, completion: { (articles) in
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.newArticlesArray = articles
-                    dispatch_group_leave(group)
-                })
-            }) { (error) in
-                dispatch_group_leave(group)
-                print("get new articles fail, error: \(error)")
-            }
-        }
-        
-        dispatch_group_notify(group, dispatch_get_main_queue()) {
-            completion()
-        }
-    }
-
     
     
     
