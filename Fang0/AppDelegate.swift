@@ -14,7 +14,7 @@ import FBSDKCoreKit
 import Alamofire
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, CAAnimationDelegate {
     
     var window: UIWindow?
     var mask: CALayer?
@@ -73,7 +73,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.mask!.addAnimation(keyFrameAnimation, forKey: "bounds")
     }
     
-    override func animationDidStop(anim: CAAnimation, finished flag: Bool) {
+    
+    func animationDidStop(anim: CAAnimation, finished flag: Bool) {
         self.imageView!.layer.mask = nil
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -88,7 +89,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window?.rootViewController = swRevealVC
     }
-    
+
     
     
     

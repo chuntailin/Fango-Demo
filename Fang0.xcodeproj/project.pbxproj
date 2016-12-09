@@ -103,6 +103,7 @@
 		E566DDF31C29868A00AC7635 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchViewController.swift; path = ../Fang0/SearchViewController.swift; sourceTree = "<group>"; };
 		E56B8EA61CABF8BB00A84333 /* CollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		E57A979D1CA2EB8D00783596 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginViewController.swift; path = ../Fang0/LoginViewController.swift; sourceTree = "<group>"; };
+		E57C00CF1DFA775A009851D1 /* Fang0.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Fang0.entitlements; sourceTree = "<group>"; };
 		E5C09F2D1D9FDA6800EF0151 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		E5C09F2F1D9FDA7400EF0151 /* ServerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerManager.swift; sourceTree = "<group>"; };
 		E5C09F311D9FDADF00EF0151 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -189,6 +190,7 @@
 		6E16C9301C25556C00FA8649 /* Fang0 */ = {
 			isa = PBXGroup;
 			children = (
+				E57C00CF1DFA775A009851D1 /* Fang0.entitlements */,
 				6E16C9311C25556C00FA8649 /* AppDelegate.swift */,
 				6E16C93B1C25556C00FA8649 /* Assets.xcassets */,
 				6E16C9401C25556C00FA8649 /* Info.plist */,
@@ -387,6 +389,11 @@
 					6E16C92D1C25556B00FA8649 = {
 						CreatedOnToolsVersion = 7.0.1;
 						DevelopmentTeam = 45NYX2RV7E;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 					6E16C9441C25556C00FA8649 = {
 						CreatedOnToolsVersion = 7.0.1;
@@ -672,8 +679,10 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Fang0/Fang0.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 45NYX2RV7E;
 				INFOPLIST_FILE = Fang0/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.nccu.soslab.fang0;
@@ -688,7 +697,9 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Fang0/Fang0.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 45NYX2RV7E;
 				INFOPLIST_FILE = Fang0/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.nccu.soslab.fang0;

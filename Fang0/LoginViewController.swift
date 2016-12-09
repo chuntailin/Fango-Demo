@@ -29,23 +29,23 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         
         self.view.addSubview(fbLoginLabel)
         
-        checkIfLogin()
+        addLoginButton()
     }
     
-    func checkIfLogin() {
-        if FBSDKAccessToken.currentAccessToken() != nil {
-        } else {
-            
-            let loginView : FBSDKLoginButton = FBSDKLoginButton()
-            loginView.center = self.view.center
-            loginView.readPermissions = ["public_profile", "email", "user_friends","user_posts", "user_photos"]
-            loginView.publishPermissions = ["publish_actions"]
-            loginView.delegate = self
-            self.view.addSubview(loginView)
-        }
+    func addLoginButton() {
+        
+        let loginButton: FBSDKLoginButton = FBSDKLoginButton()
+        loginButton.center = self.view.center
+        loginButton.readPermissions = ["public_profile", "email", "user_friends","user_posts", "user_photos"]
+        loginButton.publishPermissions = ["publish_actions"]
+        loginButton.delegate = self
+        self.view.addSubview(loginButton)
+        
     }
     
     func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!){
+        print("!#$@%^&$#@!$%#")
+        
         let fbToken = FBSDKAccessToken.currentAccessToken().tokenString
         NSUserDefaults.standardUserDefaults().setObject(fbToken, forKey: "fbToken")
         
@@ -58,6 +58,8 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         
         self.dismissViewControllerAnimated(true, completion: nil)
     }
+    
+    
     
     func loginButtonDidLogOut(loginButton: FBSDKLoginButton!){
         print("User Logged Out")

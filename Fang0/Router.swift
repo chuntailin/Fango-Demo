@@ -121,7 +121,7 @@ enum Router: URLRequestConvertible {
             fatalError("baseURL cannot cast to url : \(Router.baseURLString)")
         }
         
-        let mutableURLRequest = NSMutableURLRequest(URL: url.URLByAppendingPathComponent(path))
+        let mutableURLRequest = NSMutableURLRequest(URL: url.URLByAppendingPathComponent(path)!)
         mutableURLRequest.HTTPMethod = method.rawValue
         
         switch self {
