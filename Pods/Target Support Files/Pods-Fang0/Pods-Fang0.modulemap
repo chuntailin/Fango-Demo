@@ -1,0 +1,6 @@
+framework module Pods_Fang0 {
+  umbrella header "Pods-Fang0-umbrella.h"
+
+  export *
+  module * { export * }
+}
