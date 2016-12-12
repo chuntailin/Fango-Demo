@@ -44,13 +44,16 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     }
     
     func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!){
-        print("!#$@%^&$#@!$%#")
         
         let fbToken = FBSDKAccessToken.currentAccessToken().tokenString
+        
+        print("fbtoken:", fbToken)
+        
         NSUserDefaults.standardUserDefaults().setObject(fbToken, forKey: "fbToken")
         
         ServerManager.fbLogin(fbToken: fbToken, complettion: { (user) in
             let userToken = user.userToken
+            print("userToken:", userToken)
             NSUserDefaults.standardUserDefaults().setObject(userToken, forKey: "token")
         }) { (error) in
             print("Use fbToken to change userToken fail, error: \(error)")

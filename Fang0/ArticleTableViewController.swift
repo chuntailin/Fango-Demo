@@ -14,7 +14,7 @@ class ArticleTableViewController: UITableViewController {
     
     var selectedIndex: Int!
     var articleDataArray = [Article]()
-    var begin = 12
+    var begin = 2
     let refreshController = UIRefreshControl()
     
     override func viewDidLoad() {
@@ -25,8 +25,7 @@ class ArticleTableViewController: UITableViewController {
     }
     
     func initUI() {
-        
-        
+                
         self.refreshController.addTarget(self, action: #selector(ArticleTableViewController.uiRefreshControlAction), forControlEvents: .ValueChanged)
         self.tableView.addSubview(refreshController)
         
@@ -55,7 +54,12 @@ class ArticleTableViewController: UITableViewController {
     }
     
     func uiRefreshControlAction() {
-        begin -= 2
+        if begin > 0 {
+            begin -= 2
+        } else {
+            begin = 0
+        }
+        
         self.getArticlesData("[\(self.selectedIndex)]", number: "10", sort: "new", begin: "\(begin)")
         self.tableView.reloadData()
         refreshController.endRefreshing()

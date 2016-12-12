@@ -18,7 +18,7 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     @IBOutlet weak var nodataImage: UIImageView!
     @IBOutlet weak var nodataLabel: UILabel!
     @IBOutlet weak var nodataView: UIView!
-
+    
     var collectionListArray = [Collection]()
     var collectionImageData = ["collection1-1","collection2-1","collection3-1","collection4-1","collection5-1","collection6-1","collection7-1","collection8-1","collection9-1","collection10-1","collection11-1","collection12-1","collection13-1","collection14-1","collection15-1","collection16-1","collection17-1","collection18-1","collection19-1","collection20-1"]
     
@@ -56,18 +56,20 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
         dispatch_async(queue) {
             ServerManager.getUserCollections(userToken: userToken, completion: { (collections) in
                 dispatch_async(dispatch_get_main_queue(), {
-                    self.collectionListArray = collections
-                    self.collectionVIew.reloadData()
-                    self.nodataView.hidden = true
+                    if collections != [] {
+                        self.collectionListArray = collections
+                        self.collectionVIew.reloadData()
+                        self.nodataView.hidden = true
+                    } else {
+                        self.nodataView.addSubview(self.nodataImage)
+                        self.nodataView.addSubview(self.nodataLabel)
+                        self.nodataView.hidden = false
+                        self.view.addSubview(self.nodataView)
+                    }
                 })
             }) { (error) in
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.view.addSubview(self.nodataView)
-                    self.nodataView.addSubview(self.nodataImage)
-                    self.nodataView.addSubview(self.nodataLabel)
-                    self.nodataView.hidden = false
-                    print("get collections fail, error: \(error)")
-                })
+                print("get collections fail, error: \(error)")
+                
             }
         }
     }
@@ -172,7 +174,7 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
         let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
         dispatch_async(queue) {
             ServerManager.deleteCollection(userToken: userToken as! String, collectionName: collection.collectionName)
-            dispatch_async(dispatch_get_main_queue(), { 
+            dispatch_async(dispatch_get_main_queue(), {
                 self.collectionListArray.removeAtIndex(i)
                 self.collectionVIew.reloadData()
             })

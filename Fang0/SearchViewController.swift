@@ -24,6 +24,12 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     override func viewDidLoad() {
         super.viewDidLoad()
         initUI()
+        
+        let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeGesture(_:)))
+        swipeGesture.direction = .Down
+        
+        self.view.addGestureRecognizer(swipeGesture)
+        
     }
     
     func initUI() {
@@ -33,24 +39,12 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         
         searchBar.delegate = self
-        
-        let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeGesture(_:)))
-        swipeGesture.direction = .Down
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapGesture(_:)))
-        
-        self.view.addGestureRecognizer(tapGesture)
-        self.view.addGestureRecognizer(swipeGesture)
-    }
-    
-    func tapGesture(sender: UIGestureRecognizer) {
-        self.searchBar.resignFirstResponder()
     }
     
     func swipeGesture(sender: UIGestureRecognizer) {
         self.searchBar.resignFirstResponder()
     }
-    
+        
     
     
     //MARK: - HTTP Request

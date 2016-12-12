@@ -23,7 +23,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CAAnimationDelegate {
     var newArticlesArray = [Article]()
     var hotArticlesArray = [Article]()
     
-    
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
         
         return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
@@ -31,6 +30,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CAAnimationDelegate {
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        
+        print("fbtokn:", NSUserDefaults.standardUserDefaults().objectForKey("fbToken"))
+        print("usertokn:", NSUserDefaults.standardUserDefaults().objectForKey("token"))
+
         
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
         self.window?.rootViewController = UIViewController()
@@ -75,6 +78,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CAAnimationDelegate {
     
     
     func animationDidStop(anim: CAAnimation, finished flag: Bool) {
+        
         self.imageView!.layer.mask = nil
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -88,6 +92,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CAAnimationDelegate {
         swRevealVC.setFrontViewController(navigationVC, animated: true)
         
         self.window?.rootViewController = swRevealVC
+        
     }
 
     

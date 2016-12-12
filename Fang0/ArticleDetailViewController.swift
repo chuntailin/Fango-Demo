@@ -34,12 +34,24 @@ class ArticleDetailViewController: UIViewController, UIPopoverPresentationContro
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        initUI()
+    
         getRecommendArticle(selectedArticle.articleId)
         
-        ratingStarView.settings.fillMode = .Full
+        let toolBar = UIToolbar()
+        toolBar.barStyle = .Default
+        toolBar.tintColor = UIColor(red: 76/255, green: 217/255, blue: 100/255, alpha: 1)
+        toolBar.sizeToFit()
         
+        let cancelButton = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: #selector(ArticleDetailViewController.toolBarCancelButton))
+        let space = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(ArticleDetailViewController.toolBarDoneButton))
+        
+        toolBar.setItems([cancelButton, space, doneButton], animated: true)
+        toolBar.userInteractionEnabled = true
+        
+        
+        
+        ratingStarView.settings.fillMode = .Full
         ratingStarView.didTouchCosmos = { rating in
             if let userToken =  NSUserDefaults.standardUserDefaults().valueForKey("token") {
                 ServerManager.rank(userToken: userToken as! String, articleId: self.selectedArticle.articleId, rankValue: String(rating))
@@ -50,7 +62,6 @@ class ArticleDetailViewController: UIViewController, UIPopoverPresentationContro
                 alertVC.addAction(okAction)
                 self.presentViewController(alertVC, animated: true, completion: nil)
             } else {
-                
                 self.ratingStarView.rating = 0
                 
                 let loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
@@ -62,10 +73,8 @@ class ArticleDetailViewController: UIViewController, UIPopoverPresentationContro
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
-        self.articleContent.sizeToFit()
-        let contentLabelHeight = self.articleContent.frame.height
-        self.containViewHeightConstraint.constant = 518 + contentLabelHeight
+     
+        initUI()
     }
     
     func initUI() {
@@ -93,7 +102,21 @@ class ArticleDetailViewController: UIViewController, UIPopoverPresentationContro
         self.pickerView.delegate = self
         self.pickerView.dataSource = self
         self.pickerView.hidden = true
+        
+        self.articleContent.sizeToFit()
+        let contentLabelHeight = self.articleContent.frame.height
+        self.containViewHeightConstraint.constant = 518 + contentLabelHeight
     }
+    
+    func toolBarCancelButton() {
+        self.pickerView.hidden = true
+    }
+    
+    func toolBarDoneButton() {
+        let collection22 = pickerView.selectedRowInComponent(0)
+        print("!@%#$@$", collection22)
+    }
+    
     
     
     
@@ -169,6 +192,7 @@ class ArticleDetailViewController: UIViewController, UIPopoverPresentationContro
             dispatch_async(queue, {
                 self.getCollectionList(userToken as! String, completion: {
                     dispatch_async(dispatch_get_main_queue(), {
+                        print("pickerColection", self.pickerItemArray)
                         if self.pickerItemArray != [] {
                             if self.isPickerViewHidden {
                                 self.pickerView.hidden = false

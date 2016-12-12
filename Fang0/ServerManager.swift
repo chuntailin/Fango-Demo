@@ -158,6 +158,8 @@ class ServerManager: NSObject {
         Alamofire.request(api).responseJSON { (response) in
             switch response.result {
             case .Success(let value):
+                print("collection:" ,value)
+                
                 guard let responseArray = value as? [AnyObject] else {
                     print("ServerManager cannot cast getuserCollections response value to array type")
                     return
